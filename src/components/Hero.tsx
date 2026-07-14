@@ -64,7 +64,7 @@ export default function Hero() {
             loop
             playsInline
             onError={() => setVideoError(true)}
-            className="w-full h-full sm:object-cover max-sm:object-contain object-center sm:scale-102 max-sm:scale-100"
+            className="w-full h-full object-cover object-center scale-102"
           >
             <source src={HERO_VIDEO_URL} type="video/mp4" />
             Your browser does not support the video tag.
@@ -73,7 +73,7 @@ export default function Hero() {
           <img
             src={HERO_FALLBACK_IMAGE}
             alt="Luxury architecture background"
-            className="w-full h-full sm:object-cover max-sm:object-contain object-center sm:scale-102 max-sm:scale-100"
+            className="w-full h-full object-cover object-center scale-102"
           />
         )}
         {/* Editorial Dark Vignette & Gradient Overlay (Reduced darkness for a clearer, brighter video presentation) */}
