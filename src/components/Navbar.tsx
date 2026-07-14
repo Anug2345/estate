@@ -46,7 +46,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode, onSearchClick, onBo
         id="navbar"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-12 py-4 ${
           isScrolled
-            ? 'bg-[#111111]/85 dark:bg-[#111111]/90 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.2)] border-b border-white/5 py-3'
+            ? 'bg-white/90 dark:bg-[#111111]/90 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.05)] border-b border-luxury-black/5 dark:border-white/5 py-3'
             : 'bg-transparent py-6'
         }`}
         initial={{ y: -100 }}
@@ -60,7 +60,9 @@ export default function Navbar({ isDarkMode, toggleDarkMode, onSearchClick, onBo
             onClick={(e) => handleLinkClick(e, '#home')}
             className="flex items-center gap-2.5 group cursor-pointer"
           >
-            <span className="font-serif text-2xl md:text-3xl font-light text-white tracking-[0.2em] group-hover:text-[#C8A96A] transition-colors">
+            <span className={`font-serif text-2xl md:text-3xl font-light tracking-[0.2em] group-hover:text-[#C8A96A] transition-colors ${
+              isScrolled ? 'text-luxury-black dark:text-white' : 'text-white'
+            }`}>
               AURELIA
             </span>
             <div className="w-1.5 h-1.5 bg-[#C8A96A] rounded-full group-hover:scale-150 transition-transform duration-300" />
@@ -73,7 +75,11 @@ export default function Navbar({ isDarkMode, toggleDarkMode, onSearchClick, onBo
                 <a
                   href={item.href}
                   onClick={(e) => handleLinkClick(e, item.href)}
-                  className="text-[11px] font-medium tracking-[0.25em] text-white/80 group-hover:text-white uppercase transition-colors py-2 block"
+                  className={`text-[11px] font-medium tracking-[0.25em] uppercase transition-colors py-2 block ${
+                    isScrolled
+                      ? 'text-luxury-text/85 hover:text-luxury-black dark:text-white/80 dark:hover:text-white'
+                      : 'text-white/80 hover:text-white'
+                  }`}
                 >
                   {item.label}
                 </a>
@@ -87,7 +93,11 @@ export default function Navbar({ isDarkMode, toggleDarkMode, onSearchClick, onBo
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleDarkMode}
-              className="p-2 text-white/80 hover:text-[#C8A96A] hover:bg-white/5 rounded-full transition-all cursor-pointer"
+              className={`p-2 rounded-full transition-all cursor-pointer ${
+                isScrolled
+                  ? 'text-luxury-text hover:text-[#C8A96A] hover:bg-luxury-black/5 dark:text-white/80 dark:hover:text-[#C8A96A] dark:hover:bg-white/5'
+                  : 'text-white/80 hover:text-[#C8A96A] hover:bg-white/5'
+              }`}
               aria-label="Toggle theme"
             >
               {isDarkMode ? (
@@ -100,7 +110,11 @@ export default function Navbar({ isDarkMode, toggleDarkMode, onSearchClick, onBo
             {/* Search Toggle */}
             <button
               onClick={onSearchClick}
-              className="p-2 text-white/80 hover:text-[#C8A96A] hover:bg-white/5 rounded-full transition-all cursor-pointer"
+              className={`p-2 rounded-full transition-all cursor-pointer ${
+                isScrolled
+                  ? 'text-luxury-text hover:text-[#C8A96A] hover:bg-luxury-black/5 dark:text-white/80 dark:hover:text-[#C8A96A] dark:hover:bg-white/5'
+                  : 'text-white/80 hover:text-[#C8A96A] hover:bg-white/5'
+              }`}
               aria-label="Search properties"
             >
               <Search className="w-4 h-4" />
@@ -109,10 +123,16 @@ export default function Navbar({ isDarkMode, toggleDarkMode, onSearchClick, onBo
             {/* Phone Consult button (Desktop only) */}
             <a
               href="tel:+2348141972357"
-              className="hidden lg:flex items-center gap-2 border border-white/10 hover:border-[#C8A96A]/60 bg-white/5 hover:bg-[#C8A96A]/10 px-4 py-2 rounded-full transition-all group cursor-pointer"
+              className={`hidden lg:flex items-center gap-2 border px-4 py-2 rounded-full transition-all group cursor-pointer ${
+                isScrolled
+                  ? 'border-luxury-black/10 hover:border-[#C8A96A]/60 bg-luxury-black/5 hover:bg-[#C8A96A]/10 text-luxury-black dark:border-white/10 dark:text-white dark:bg-white/5 dark:hover:bg-[#C8A96A]/10'
+                  : 'border-white/10 hover:border-[#C8A96A]/60 bg-white/5 hover:bg-[#C8A96A]/10 text-white'
+              }`}
             >
               <Phone className="w-3.5 h-3.5 text-[#C8A96A] group-hover:animate-pulse" />
-              <span className="text-[10px] tracking-[0.2em] text-white font-medium uppercase">
+              <span className={`text-[10px] tracking-[0.2em] font-medium uppercase ${
+                isScrolled ? 'text-luxury-black dark:text-white' : 'text-white'
+              }`}>
                 +234 814 197 2357
               </span>
             </a>
@@ -128,14 +148,24 @@ export default function Navbar({ isDarkMode, toggleDarkMode, onSearchClick, onBo
             {/* Mobile Menu Icon (Beautiful Morphing Hamburger) */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="xl:hidden z-50 p-2.5 text-white hover:text-[#C8A96A] hover:bg-white/5 rounded-full transition-all cursor-pointer flex items-center justify-center relative"
+              className={`xl:hidden z-50 p-2.5 rounded-full transition-all cursor-pointer flex items-center justify-center relative ${
+                isScrolled
+                  ? 'text-luxury-black dark:text-white hover:bg-luxury-black/5 dark:hover:bg-white/5'
+                  : 'text-white hover:bg-white/5'
+              }`}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               <div className="w-5 h-5 flex flex-col justify-center items-center gap-1.5 relative">
                 <motion.span
                   animate={isMobileMenuOpen ? { rotate: 45, y: 5.5 } : { rotate: 0, y: 0 }}
                   transition={{ type: 'spring', stiffness: 220, damping: 18 }}
-                  className="w-5.5 h-[1.5px] bg-white rounded-full block origin-center"
+                  className={`w-5.5 h-[1.5px] rounded-full block origin-center ${
+                    isMobileMenuOpen
+                      ? 'bg-white'
+                      : isScrolled
+                      ? 'bg-luxury-black dark:bg-white'
+                      : 'bg-white'
+                  }`}
                 />
                 <motion.span
                   animate={isMobileMenuOpen ? { opacity: 0, scale: 0.4 } : { opacity: 1, scale: 1 }}
@@ -145,7 +175,13 @@ export default function Navbar({ isDarkMode, toggleDarkMode, onSearchClick, onBo
                 <motion.span
                   animate={isMobileMenuOpen ? { rotate: -45, y: -5.5 } : { rotate: 0, y: 0 }}
                   transition={{ type: 'spring', stiffness: 220, damping: 18 }}
-                  className="w-5.5 h-[1.5px] bg-white rounded-full block origin-center"
+                  className={`w-5.5 h-[1.5px] rounded-full block origin-center ${
+                    isMobileMenuOpen
+                      ? 'bg-white'
+                      : isScrolled
+                      ? 'bg-luxury-black dark:bg-white'
+                      : 'bg-white'
+                  }`}
                 />
               </div>
             </button>
