@@ -6,27 +6,33 @@ export default function MobileBottomNav() {
   const [activeTab, setActiveTab] = useState('#home');
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['#home', '#properties', '#why-us', '#agents', '#contact'];
-      const scrollPos = window.scrollY + 200;
+    const sections = ['#home', '#properties', '#why-us', '#agents', '#contact'];
+    
+    // Find valid elements existing in the DOM
+    const elements = sections
+      .map(id => document.querySelector(id))
+      .filter((el): el is Element => el !== null);
 
-      for (const section of sections) {
-        const el = document.querySelector(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          const top = rect.top + window.scrollY;
-          const bottom = top + rect.height;
-
-          if (scrollPos >= top && scrollPos < bottom) {
-            setActiveTab(section);
-            break;
-          }
-        }
-      }
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -55% 0px', // Focused active zone
+      threshold: 0,
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveTab(`#${entry.target.id}`);
+        }
+      });
+    }, observerOptions);
+
+    elements.forEach(el => observer.observe(el));
+
+    return () => {
+      elements.forEach(el => observer.unobserve(el));
+      observer.disconnect();
+    };
   }, []);
 
   const handleNavClick = (e: React.MouseEvent, href: string) => {

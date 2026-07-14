@@ -27,7 +27,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode, onSearchClick, onBo
         setIsScrolled(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

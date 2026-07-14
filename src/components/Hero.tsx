@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { HERO_VIDEO_URL, HERO_FALLBACK_IMAGE } from '../data';
 
@@ -17,11 +17,12 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [videoError, setVideoError] = useState(false);
 
-  // Parallax effects on scroll
+  // Parallax effects on scroll (smoothed with spring physics to prevent lag/stutter)
   const { scrollY } = useScroll();
-  const videoY = useTransform(scrollY, [0, 800], [0, 200]);
-  const textY = useTransform(scrollY, [0, 800], [0, -100]);
-  const opacity = useTransform(scrollY, [0, 600], [1, 0]);
+  const smoothScrollY = useSpring(scrollY, { damping: 25, stiffness: 120, mass: 0.5 });
+  const videoY = useTransform(smoothScrollY, [0, 800], [0, 200]);
+  const textY = useTransform(smoothScrollY, [0, 800], [0, -100]);
+  const opacity = useTransform(smoothScrollY, [0, 600], [1, 0]);
 
   const handleScrollDown = () => {
     const target = document.querySelector('#properties');
@@ -60,9 +61,9 @@ export default function Hero() {
             className="w-full h-full object-cover object-center scale-102"
           />
         )}
-        {/* Editorial Dark Vignette & Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/30 to-luxury-black/50" />
-        <div className="absolute inset-0 bg-radial-gradient(circle_at_center,transparent_20%,#111111_90%) opacity-60" />
+        {/* Editorial Dark Vignette & Gradient Overlay (Reduced darkness for a clearer, brighter video presentation) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/70 via-luxury-black/15 to-luxury-black/25" />
+        <div className="absolute inset-0 bg-radial-gradient(circle_at_center,transparent_30%,#111111_80%) opacity-35" />
       </motion.div>
 
       {/* Grid line architectural styling */}

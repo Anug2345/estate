@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'motion/react';
 import { Play, X, Volume2, VolumeX, Maximize2 } from 'lucide-react';
 import { SHOWCASE_VIDEO_URL, SHOWCASE_FALLBACK_IMAGE } from '../data';
 
@@ -11,15 +11,16 @@ export default function VideoShowcase() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const fullVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Scroll parallax for deep spatial effect
+  // Scroll parallax for deep spatial effect (smoothed with spring physics)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
   });
 
-  const videoY = useTransform(scrollYProgress, [0, 1], [-80, 80]);
-  const textScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.98]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3]);
+  const smoothProgress = useSpring(scrollYProgress, { damping: 25, stiffness: 120, mass: 0.5 });
+  const videoY = useTransform(smoothProgress, [0, 1], [-80, 80]);
+  const textScale = useTransform(smoothProgress, [0, 0.5, 1], [0.95, 1, 0.98]);
+  const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3]);
 
   const handleOpenCinema = () => {
     setIsPlayingFull(true);

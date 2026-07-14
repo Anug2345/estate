@@ -8,11 +8,11 @@ export default function NewsletterPopup() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Check if user has already seen or closed it
-      const hasSeen = localStorage.getItem('aurelia_newsletter_seen');
-      if (hasSeen) return;
+    // Check if user has already seen or closed it (checked once on mount to prevent scroll-blocking overhead)
+    const hasSeen = localStorage.getItem('aurelia_newsletter_seen');
+    if (hasSeen) return;
 
+    const handleScroll = () => {
       // Scroll threshold 30%
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -24,7 +24,7 @@ export default function NewsletterPopup() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
