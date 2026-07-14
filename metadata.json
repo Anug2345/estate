@@ -1,0 +1,6 @@
+{
+  "name": "Luxury Real Estate Portal",
+  "description": "An award-winning, cinematic luxury real estate landing page with interactive elements, smooth motion, and immersive architecture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
