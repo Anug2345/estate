@@ -15,7 +15,21 @@ const PARTICLES = Array.from({ length: 15 }, (_, i) => ({
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [videoError, setVideoError] = useState(false);
+
+  // Robustly handle autoplay and loop on mount
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.play().catch((err) => {
+        console.log("Video autoplay interrupted/blocked:", err);
+      });
+    }
+  }, []);
 
   // Parallax effects on scroll (smoothed with spring physics to prevent lag/stutter)
   const { scrollY } = useScroll();
@@ -44,12 +58,13 @@ export default function Hero() {
       >
         {!videoError ? (
           <video
+            ref={videoRef}
             autoPlay
             muted
             loop
             playsInline
             onError={() => setVideoError(true)}
-            className="w-full h-full object-cover object-center scale-102"
+            className="w-full h-full sm:object-cover max-sm:object-contain object-center sm:scale-102 max-sm:scale-100"
           >
             <source src={HERO_VIDEO_URL} type="video/mp4" />
             Your browser does not support the video tag.
@@ -58,7 +73,7 @@ export default function Hero() {
           <img
             src={HERO_FALLBACK_IMAGE}
             alt="Luxury architecture background"
-            className="w-full h-full object-cover object-center scale-102"
+            className="w-full h-full sm:object-cover max-sm:object-contain object-center sm:scale-102 max-sm:scale-100"
           />
         )}
         {/* Editorial Dark Vignette & Gradient Overlay (Reduced darkness for a clearer, brighter video presentation) */}
